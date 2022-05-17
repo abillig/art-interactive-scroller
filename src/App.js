@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import ScrollerStuff from './ScrollerStuff';
 import Header from './Header';
 import SplashScreen from './SplashScreen';
+import { FaHome } from 'react-icons/fa';
+
 
 function App() {
   const [featuredImage, setFeaturedImage] = useState(null);
@@ -12,15 +14,9 @@ function App() {
   const [displaySplashScreen, setDisplaySplashScreen] = useState(true)
 
   const handleScroll = () => {
-    const splashScreenHeight = 2;
-    const apiImagesPlusSplashScreen = apiImages.length;
-    const percentageOfPageScrolledTo = window.scrollY / (window.innerHeight * (apiImagesPlusSplashScreen));
-    const desiredIndex = Math.round(apiImagesPlusSplashScreen * percentageOfPageScrolledTo);
-    
-    console.log({percentageOfPageScrolledTo})
-      console.log({desiredIndex})
-      console.log({pageV: window.innerHeight})
-      console.log({apiImages})
+    const percentageOfPageScrolledTo = window.scrollY / (window.innerHeight * (apiImages.length));
+    const desiredIndex = Math.round(apiImages.length * percentageOfPageScrolledTo);
+
     if (desiredIndex > 1 && desiredIndex !== apiImages.indexOf(featuredImage)) {
       setDisplaySplashScreen(false)
     } else if (desiredIndex <= 1) {
@@ -48,9 +44,12 @@ function App() {
     document.addEventListener('scroll', handleScroll)
     return () => document.removeEventListener('scroll', handleScroll) 
   }, [apiImages, handleScroll])
+
+  const favIconColor = displaySplashScreen ? "#1c1b1b" : "#efe6e1"
   
   return (
     <>
+      <FaHome className="homeIcon" style={{color: `${favIconColor}`}}></FaHome>
       <Header artworkInfo={artworkInfo} displaySplashScreen={displaySplashScreen}/>
       <div className="pageContent">
       {/* <SplashScreen artworkInfo={artworkInfo} style/> */}

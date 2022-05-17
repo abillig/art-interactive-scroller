@@ -11,7 +11,9 @@ const Header = props => {
   }
 
   return (
-    !displaySplashScreen && <div className="header" style={headerStyles}>{artworkInfo.description}</div>
+    <div className="header" style={headerStyles}>
+        {!displaySplashScreen && <div className="description">{artworkInfo.description}</div>}
+    </div>
   )
 }
 
