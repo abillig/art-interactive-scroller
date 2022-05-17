@@ -1,12 +1,12 @@
-import './App.css';
+import './App.scss';
 import React from 'react';
 
 const Header = props => {
   const { artworkInfo, displaySplashScreen } = props
 
   const headerStyles = {
-      backgroundColor: displaySplashScreen ? "#efe6e1" : "#1c1b1b",
-      boxShadow: displaySplashScreen ? '0 2px 5px -2px #e0dad6' : 'none',
+      background: displaySplashScreen ? "none" : "#1c1b1b",
+      boxShadow: displaySplashScreen ? 'none' : 'none',
       color: displaySplashScreen ? "#1c1b1b" : "#efe6e1"
   }
 

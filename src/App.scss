@@ -47,11 +47,18 @@ body {
   box-shadow: 0 2px 5px -2px #e0dad6;
 }
 
-.splashScreen {
+.splash {
   /* margin-top: 100px; */
   /* margin: 50px;  */
   text-align: center;
   height: 200vh;
-  background-color: #efe6e1;
+  // background-color: #efe6e1;
+  background: linear-gradient(#efe6e1 50%, #1c1b1b);
   /* position: fixed; */
+  padding-top: 20px;
+}
+
+.splashHeader {
+  font-size: 36px;
+  margin: 40px;
 }

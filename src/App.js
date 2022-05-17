@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import React, { useState, useEffect } from 'react';
 import ScrollerStuff from './ScrollerStuff';
 import Header from './Header';
@@ -13,7 +13,7 @@ function App() {
 
   const handleScroll = () => {
     const splashScreenHeight = 2;
-    const apiImagesPlusSplashScreen = apiImages.length + 2;
+    const apiImagesPlusSplashScreen = apiImages.length;
     const percentageOfPageScrolledTo = window.scrollY / (window.innerHeight * (apiImagesPlusSplashScreen));
     const desiredIndex = Math.round(apiImagesPlusSplashScreen * percentageOfPageScrolledTo);
     
@@ -21,10 +21,12 @@ function App() {
       console.log({desiredIndex})
       console.log({pageV: window.innerHeight})
       console.log({apiImages})
-    if (desiredIndex !== apiImages.indexOf(featuredImage)) {
+    if (desiredIndex > 1 && desiredIndex !== apiImages.indexOf(featuredImage)) {
       setDisplaySplashScreen(false)
-      setFeaturedImage(apiImages[desiredIndex]) 
+    } else if (desiredIndex <= 1) {
+      setDisplaySplashScreen(true)
     }
+    setFeaturedImage(apiImages[desiredIndex]) 
   }
 
   useEffect(() => {
@@ -33,8 +35,9 @@ function App() {
       .then(result => result.json())
       .then(json => {
         const artworkInfo = json.info[0]
-        setApiImages([...json.images.images])
+        setApiImages([artworkInfo, artworkInfo, ...json.images.images])
         setArtworkInfo(artworkInfo)
+        setFeaturedImage(artworkInfo)
       })
       .catch((err) => {
         console.log(err);   
@@ -45,14 +48,14 @@ function App() {
     document.addEventListener('scroll', handleScroll)
     return () => document.removeEventListener('scroll', handleScroll) 
   }, [apiImages, handleScroll])
-
+  
   return (
     <>
       <Header artworkInfo={artworkInfo} displaySplashScreen={displaySplashScreen}/>
       <div className="pageContent">
-      {displaySplashScreen && <SplashScreen artworkInfo={artworkInfo} style/>}
-        <div className="scroller" id="scroller">
-          <ScrollerStuff apiImages={apiImages} featuredImage={featuredImage} />
+      {/* <SplashScreen artworkInfo={artworkInfo} style/> */}
+        <div className="scroller">
+          <ScrollerStuff apiImages={apiImages} featuredImage={featuredImage} displaySplashScreen={displaySplashScreen}/>
         </div>
       </div>
     </>
