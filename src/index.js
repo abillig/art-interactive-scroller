@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import UploadView from './UploadView';
 import ArtworkViewer from './ArtworkViewer';
 import ArtworkIndex from './ArtworkIndex';
 
@@ -21,6 +21,7 @@ root.render(
           <Route path="artwork" element={<ArtworkViewer />} >
             <Route path=":artworkId" element={<ArtworkViewer />} />
           </Route>
+          <Route path="upload" element={<UploadView />} />
           <Route
             path="*"
             element={
