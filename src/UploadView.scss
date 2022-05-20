@@ -1,35 +1,73 @@
 
 .uploadView {
     background-color: #e0dad6;
+    height: 200vh;
+    padding-top: 50px;
+    // form {
+    //     display: flex; 
+    //     flex-direction: column; 
+    //     max-width: 400px; 
+    //     margin: auto;
+    // }
+    
+    // .imagePreview {
+    //     position: relative;
+    //     width: 200px;
+    // }
+    
+    // .imagePreview img {
+    //     width: 100%;
+    // }
+    
+    // .imagePreview button {
+    //     position: absolute;
+    //     right: 0;
+    //     top: 0;
+    // }
+    
+    // form > * {
+    //     margin: 10px 0;
+    // }
+    
+    // img {
+    //     max-width: 400px;
+    //     margin: auto;
+    // }
+}
 
-    form {
-        display: flex; 
-        flex-direction: column; 
-        max-width: 400px; 
-        margin: auto;
-    }
-    
-    .imagePreview {
-        position: relative;
-        width: 200px;
-    }
-    
-    .imagePreview img {
-        width: 100%;
-    }
-    
-    .imagePreview button {
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-    
-    form > * {
-        margin: 10px 0;
-    }
-    
-    img {
-        max-width: 400px;
-        margin: auto;
-    }
+.imageUploadContainer {
+    text-align: center;
+    width: 70%;
+    margin-left: 15%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.leadImage {
+    width: 200px;
+}
+
+.uploadImage {
+    width: 150px;
+}
+
+.imageInput {
+    display: block;
+    width: 80%;
+    margin-left: 10%;
+    height: 50px;
+}
+
+.sectionHeader {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.sectionBody {
+    background-color: #f4efef;
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 15px;
 }
