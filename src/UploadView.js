@@ -1,55 +1,108 @@
-import { useState } from 'react'
-import axios from 'axios'
+import "./UploadView.scss";
+import axios from "axios";
 
-import './UploadView.scss'
+import React, { useState, useEffect, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import ImagesUploader from "./ImagesUploader";
 
-async function postImage({image, description}) {
-  const formData = new FormData();
-  formData.append("image", image)
-  formData.append("description", description)
+const UploadView = () => {
+  const [uploads, setUploads] = useState([]);
+  const [leadImage, setLeadImage] = useState({ title: "lead image" });
 
-  console.log('sup')
+  const onDrop = useCallback(
+    (file) => {
+      const uploadedFile = file[0];
 
-  const result = await axios.post('http://localhost:3005/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
-  return result.data
-}
+      const image = Object.assign({}, uploadedFile, {
+        preview: URL.createObjectURL(uploadedFile),
+      });
 
+      setLeadImage(
+        Object.assign({}, leadImage, {
+          preview: image.preview,
+          url: uploadedFile,
+        })
+      );
+    },
+    [leadImage]
+  );
 
-function UploadView() {
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const [file, setFile] = useState()
-  const [description, setDescription] = useState("")
-  const [images, setImages] = useState([])
+  const leadImageTitlepdate = (value) => {
+    setLeadImage(
+      Object.assign({}, leadImage, {
+        title: value,
+      })
+    );
+  };
 
-  const submit = async event => {
-    event.preventDefault()
-    const result = await postImage({image: file, description})
-    setImages([result.image, ...images])
+  async function postImage({
+    image,
+    description,
+    title,
+    leadImage,
+    artworkId,
+  }) {
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("lead_image", leadImage);
+    if (description) {
+      formData.append("description", description);
+    }
+    if (artworkId) {
+      formData.append("artwork_id", artworkId);
+    }
+
+    const result = await axios.post("http://localhost:8080/images", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return result.data;
   }
 
-  const fileSelected = event => {
-    const file = event.target.files[0]
-		setFile(file)
-	}
+  const submit = async (event) => {
+    const result = await postImage({
+      image: leadImage.url,
+      title: leadImage.title,
+      leadImage: true,
+    });
+    const artworkId = await result.insertId;
+    uploads.forEach((upload) => {
+      postImage({
+        image: upload.url,
+        description: upload.description,
+        title: upload.title,
+        leadImage: false,
+        artworkId: artworkId,
+      });
+    });
+  };
 
   return (
     <div className="uploadView">
-      <form onSubmit={submit}>
-        <input onChange={fileSelected} type="file" accept="image/*"></input>
-        <input value={description} onChange={e => setDescription(e.target.value)} type="text"></input>
-        <button type="submit">Submit</button>
-      </form>
-
-      { images.map( image => (
-        <div key={image}>
-          <img src={image}></img>
+      <div className="imageUploadContainer">
+        <div className="sectionHeader">Lead Image</div>
+        <div {...getRootProps({ className: "dropzone" })}>
+          <input {...getInputProps()} />
+          <p>Drag 'n' drop some files here, or click to select files</p>
         </div>
-      ))}
-      
-      <img src="http://localhost:3005/images/4b21572383c2863867710123b1c4ed39"></img>
-
+        <div className="sectionBody">
+          <img className="leadImage" src={leadImage.preview}></img>
+          <div className="uploadDescription">
+            <input
+              placeholder="lead image title"
+              className="imageInput"
+              value={leadImage.name}
+              onChange={(e) => leadImageTitlepdate(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+      <ImagesUploader uploads={uploads} setUploads={setUploads} />
+      <button onClick={submit}> Submit </button>
     </div>
   );
-}
+};
 
 export default UploadView;

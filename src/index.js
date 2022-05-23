@@ -1,35 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import Upload from './Upload';
-import ArtworkViewer from './ArtworkViewer';
-import ArtworkIndex from './ArtworkIndex';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import UploadView from "./UploadView";
+import ArtworkViewer from "./ArtworkViewer";
+import ArtworkIndex from "./ArtworkIndex";
 
-import reportWebVitals from './reportWebVitals';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<ArtworkIndex />} />
-          <Route path="artwork" element={<ArtworkViewer />} >
-            <Route path=":artworkId" element={<ArtworkViewer />} />
-          </Route>
-          <Route path="upload" element={<Upload />} />
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
+        <Route path="artwork" element={<ArtworkViewer />}>
+          <Route path=":artworkId" element={<ArtworkViewer />} />
+        </Route>
+        <Route path="upload" element={<UploadView />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: "1rem" }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

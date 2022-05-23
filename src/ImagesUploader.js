@@ -42,7 +42,13 @@ const onDrop = useCallback(files => {
         preview: URL.createObjectURL(file)
     }));
 
-    setUploads(uploads.concat(filesWithPreview.map(file => ({preview: file.preview, url: file}))))
+    setUploads(uploads.concat(filesWithPreview.map((file, idx) => (
+        {
+            preview: file.preview, 
+            url: files[idx] // backend needs to read original file without preview 
+        }
+    ))
+))
   }, [uploads])
 
   const { getRootProps, getInputProps } = useDropzone({onDrop})
