@@ -1,9 +1,10 @@
-// import logo from './logo.svg';
-import "./App.scss";
+import "./ArtworkViewer.scss";
 import React from "react";
 
-const ScrollerStuff = (props) => {
+const ImageTextScroller = (props) => {
   const { featuredImage, apiImages, displaySplashScreen } = props;
+
+  console.log({ apiImages });
 
   const scrollerStyles = {
     height: `${window.innerHeight * apiImages.length}px`,
@@ -12,7 +13,7 @@ const ScrollerStuff = (props) => {
   const imagesText = apiImages.map((image, idx) => {
     const leadImage = idx < 2;
     return (
-      <div className={`imagesText`}>
+      <div key={idx} className={`imagesText`}>
         <h3 className="imageHeader">{leadImage ? "" : image["header"]}</h3>
         <div className="imageDescription">
           {leadImage ? "" : image["description"]}
@@ -32,7 +33,11 @@ const ScrollerStuff = (props) => {
       )}
       <img
         className={splashScreen ? "" : "featuredImage"}
-        src={featuredImage && `http://localhost:8080${featuredImage["url"]}`}
+        src={
+          featuredImage &&
+          `${process.env.REACT_APP_API_URL}${featuredImage["url"]}`
+        }
+        alt="featured"
       ></img>
       <div className="scrollingPanel" style={scrollerStyles}>
         {imagesText}
@@ -41,4 +46,4 @@ const ScrollerStuff = (props) => {
   );
 };
 
-export default ScrollerStuff;
+export default ImageTextScroller;

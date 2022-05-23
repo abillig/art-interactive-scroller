@@ -1,8 +1,7 @@
-import "./App.scss";
+import "./ArtworkViewer.scss";
 import React, { useState, useEffect } from "react";
-import ScrollerStuff from "./ScrollerStuff";
-import Header from "./Header";
-import SplashScreen from "./SplashScreen";
+import ImageTextScroller from "./ImageTextScroller";
+import Header from "../Shared/Header";
 import { FaHome } from "react-icons/fa";
 import { Outlet, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -14,33 +13,19 @@ function ArtworkViewer() {
   const [displaySplashScreen, setDisplaySplashScreen] = useState(true);
   let params = useParams();
 
-  const handleScroll = () => {
-    const percentageOfPageScrolledTo =
-      window.scrollY / (window.innerHeight * apiImages.length);
-    const desiredIndex = Math.round(
-      apiImages.length * percentageOfPageScrolledTo
-    );
-
-    if (desiredIndex > 1 && desiredIndex !== apiImages.indexOf(featuredImage)) {
-      setDisplaySplashScreen(false);
-    } else if (desiredIndex <= 1) {
-      setDisplaySplashScreen(true);
-    }
-    setFeaturedImage(apiImages[desiredIndex]);
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    //TO DO api service
-    fetch(`http://localhost:8080/artwork/${params.artworkId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/artwork/${params.artworkId}`)
       .then((result) => result.json())
       .then((json) => {
         const artworkInfo = json.info[0];
+        // lead image is displayed to start as part of splash screen
         let imgGroup = [artworkInfo, artworkInfo, ...json.images.images];
 
+        // cache images for faster load
         imgGroup.forEach((imgObject) => {
           let img = new Image();
-          img.src = `http://localhost:8080${imgObject.url}`;
+          img.src = `${process.env.REACT_APP_API_URL}${imgObject.url}`;
         });
         setApiImages(imgGroup);
         setArtworkInfo(artworkInfo);
@@ -49,12 +34,30 @@ function ArtworkViewer() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [featuredImage, params]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      const percentageOfPageScrolledTo =
+        window.scrollY / (window.innerHeight * apiImages.length);
+      const desiredIndex = Math.round(
+        apiImages.length * percentageOfPageScrolledTo
+      );
+
+      if (
+        desiredIndex > 1 &&
+        desiredIndex !== apiImages.indexOf(featuredImage)
+      ) {
+        setDisplaySplashScreen(false);
+      } else if (desiredIndex <= 1) {
+        setDisplaySplashScreen(true);
+      }
+      setFeaturedImage(apiImages[desiredIndex]);
+    };
+
     document.addEventListener("scroll", handleScroll);
     return () => document.removeEventListener("scroll", handleScroll);
-  }, [apiImages, handleScroll]);
+  }, [featuredImage, apiImages]);
 
   const favIconColor = displaySplashScreen ? "#1c1b1b" : "#efe6e1";
 
@@ -72,7 +75,7 @@ function ArtworkViewer() {
       />
       <div className="pageContent">
         <div className="scroller">
-          <ScrollerStuff
+          <ImageTextScroller
             apiImages={apiImages}
             featuredImage={featuredImage}
             displaySplashScreen={displaySplashScreen}

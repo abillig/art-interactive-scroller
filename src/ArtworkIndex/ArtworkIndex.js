@@ -1,7 +1,6 @@
-// import logo from './logo.svg';
-import "./App.scss";
+import "../App.scss";
+import "./ArtworkIndex.scss";
 import React, { useState, useEffect } from "react";
-import { Outlet, Link } from "react-router-dom";
 
 import ArtworkTile from "./ArtworkTile";
 
@@ -9,8 +8,7 @@ function ArtworkIndex() {
   const [artCollection, setArtCollection] = useState([]);
 
   useEffect(() => {
-    //TO DO api service
-    fetch(`http://localhost:8080/artwork/all`)
+    fetch(`${process.env.REACT_APP_API_URL}/artwork/all`)
       .then((result) => result.json())
       .then((json) => {
         setArtCollection(json["artworkCollection"]);
@@ -23,14 +21,9 @@ function ArtworkIndex() {
   const artworkTiles =
     artCollection &&
     artCollection.map((artwork) => {
-      const { artwork_id, url, title } = artwork;
+      const { artwork_id, title } = artwork;
       return (
-        <ArtworkTile
-          artworkId={artwork_id}
-          url={url}
-          title={title}
-          key={artwork_id}
-        />
+        <ArtworkTile artworkId={artwork_id} title={title} key={artwork_id} />
       );
     });
 

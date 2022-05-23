@@ -1,7 +1,7 @@
 import "./UploadView.scss";
 import axios from "axios";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import ImagesUploader from "./ImagesUploader";
 
@@ -55,9 +55,13 @@ const UploadView = () => {
       formData.append("artwork_id", artworkId);
     }
 
-    const result = await axios.post("http://localhost:8080/images", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const result = await axios.post(
+      `${process.env.REACT_APP_API_URL}/images`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     return result.data;
   }
 
@@ -88,7 +92,7 @@ const UploadView = () => {
           <p>Drag 'n' drop some files here, or click to select files</p>
         </div>
         <div className="sectionBody">
-          <img className="leadImage" src={leadImage.preview}></img>
+          <img className="leadImage" alt="lead" src={leadImage.preview}></img>
           <div className="uploadDescription">
             <input
               placeholder="lead image title"

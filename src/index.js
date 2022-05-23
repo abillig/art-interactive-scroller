@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import UploadView from "./UploadView";
-import ArtworkViewer from "./ArtworkViewer";
-import ArtworkIndex from "./ArtworkIndex";
+import UploadView from "./Uploader/UploadView";
+import ArtworkViewer from "./ArtworkViewer/ArtworkViewer";
+import ArtworkIndex from "./ArtworkIndex/ArtworkIndex";
 
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
