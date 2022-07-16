@@ -1,17 +1,18 @@
 .artworkIndex {
     background-color: #efe6e1;
+    margin-top: 50px;
 
     .tile {
         background-size:cover;
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
         display: inline-block;
         margin: 30px;
         border-radius: 10px;
         position: relative;
     }
         
-        .tileTitle {
+    .tileTitle {
         color: white;
         background-color: rgba(0, 0, 0, 0.6);
         text-align: center;

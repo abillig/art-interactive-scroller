@@ -2,9 +2,7 @@ import "./ArtworkViewer.scss";
 import React, { useState, useEffect } from "react";
 import ImageTextScroller from "./ImageTextScroller";
 import Header from "../Shared/Header";
-import { FaHome } from "react-icons/fa";
 import { Outlet, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 function ArtworkViewer() {
   const [featuredImage, setFeaturedImage] = useState(null);
@@ -34,7 +32,7 @@ function ArtworkViewer() {
       .catch((err) => {
         console.log(err);
       });
-  }, [featuredImage, params]);
+  }, [params.artworkId]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,19 +57,13 @@ function ArtworkViewer() {
     return () => document.removeEventListener("scroll", handleScroll);
   }, [featuredImage, apiImages]);
 
-  const favIconColor = displaySplashScreen ? "#1c1b1b" : "#efe6e1";
-
   return (
     <div className="artworkViewer">
-      <Link to={`/`}>
-        <FaHome
-          className="homeIcon"
-          style={{ color: `${favIconColor}` }}
-        ></FaHome>
-      </Link>
       <Header
-        artworkInfo={artworkInfo}
-        displaySplashScreen={displaySplashScreen}
+        title={artworkInfo.description}
+        bringToFront={displaySplashScreen}
+        displayDescription={!displaySplashScreen}
+        colorScheme={displaySplashScreen ? "light" : "dark"}
       />
       <div className="pageContent">
         <div className="scroller">

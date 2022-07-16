@@ -1,21 +1,35 @@
 import "./Header.scss";
 import React from "react";
+import { FaHome } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
-  const { artworkInfo, displaySplashScreen } = props;
+  const { title, displayDescription, bringToFront, colorScheme } = props;
+
+  const darkColor = "#1c1b1b";
+  const lightColor = "#efe6e1";
+  const backgroundColor = colorScheme === "light" ? lightColor : darkColor;
+  const altColor = colorScheme === "light" ? darkColor : lightColor;
 
   const headerStyles = {
-    background: displaySplashScreen ? "none" : "#1c1b1b",
-    boxShadow: displaySplashScreen ? "none" : "none",
-    color: displaySplashScreen ? "#1c1b1b" : "#efe6e1",
+    background: bringToFront ? "none" : backgroundColor,
+    color: altColor,
   };
 
+  const favIconColor = altColor;
+
   return (
-    <div className="header" style={headerStyles}>
-      {!displaySplashScreen && (
-        <div className="description">{artworkInfo.description}</div>
-      )}
-    </div>
+    <>
+      <Link to={`/`}>
+        <FaHome
+          className="homeIcon"
+          style={{ color: `${favIconColor}` }}
+        ></FaHome>
+      </Link>
+      <div className="header" style={headerStyles}>
+        {displayDescription && <div className="description">{title}</div>}
+      </div>
+    </>
   );
 };
 

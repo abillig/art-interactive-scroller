@@ -3,10 +3,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ArtworkTile = (props) => {
-  const { artworkId, title } = props;
+  const { artworkId, url, title } = props;
 
   const tileStyle = {
-    backgroundImage: `url(${process.env.REACT_APP_API_URL}${props.url})`,
+    backgroundImage: `url(${process.env.REACT_APP_API_URL}${url})`,
   };
 
   return (

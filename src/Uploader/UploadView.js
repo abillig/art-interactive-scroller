@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import ImagesUploader from "./ImagesUploader";
+import Header from "../Shared/Header";
 
 const UploadView = () => {
   const [uploads, setUploads] = useState([]);
@@ -85,6 +86,12 @@ const UploadView = () => {
 
   return (
     <div className="uploadView">
+      <Header
+        title={"Art Interactive"}
+        bringToFront={false}
+        displayDescription
+        colorScheme="light"
+      />
       <div className="imageUploadContainer">
         <div className="sectionHeader">Lead Image</div>
         <div {...getRootProps({ className: "dropzone" })}>

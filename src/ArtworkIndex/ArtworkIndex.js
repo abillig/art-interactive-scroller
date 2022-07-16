@@ -3,6 +3,7 @@ import "./ArtworkIndex.scss";
 import React, { useState, useEffect } from "react";
 
 import ArtworkTile from "./ArtworkTile";
+import Header from "../Shared/Header";
 
 function ArtworkIndex() {
   const [artCollection, setArtCollection] = useState([]);
@@ -21,13 +22,28 @@ function ArtworkIndex() {
   const artworkTiles =
     artCollection &&
     artCollection.map((artwork) => {
-      const { artwork_id, title } = artwork;
+      const { artwork_id, url, title } = artwork;
       return (
-        <ArtworkTile artworkId={artwork_id} title={title} key={artwork_id} />
+        <ArtworkTile
+          artworkId={artwork_id}
+          url={url}
+          title={title}
+          key={artwork_id}
+        />
       );
     });
 
-  return <div className="artworkIndex">{artworkTiles}</div>;
+  return (
+    <>
+      <Header
+        title={"Art Interactive"}
+        bringToFront={false}
+        displayDescription
+        colorScheme="light"
+      />
+      <div className="artworkIndex">{artworkTiles}</div>;
+    </>
+  );
 }
 
 export default ArtworkIndex;
