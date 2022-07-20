@@ -66,12 +66,17 @@ const UploadView = () => {
     return result.data;
   }
 
-  const submit = async (event) => {
-    const result = await postImage({
+  const postLeadImage = async leadImage => {
+    return postImage({
       image: leadImage.url,
       title: leadImage.title,
       leadImage: true,
     });
+  }
+
+  const submit = async (event) => {
+    const result = await postLeadImage(leadImage);
+
     const artworkId = await result.insertId;
     uploads.forEach((upload) => {
       postImage({

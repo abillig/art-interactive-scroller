@@ -23,7 +23,7 @@ const ImagesUploader = (props) => {
 
   const uploadRow = (upload, idx) => {
     return (
-      <div className="sectionBody">
+      <div className="sectionBody" key={idx}>
         <div className="imageContainer">
           <img
             className="uploadImage"

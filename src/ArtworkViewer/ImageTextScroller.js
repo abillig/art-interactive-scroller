@@ -3,9 +3,7 @@ import React from "react";
 
 const ImageTextScroller = (props) => {
   const { featuredImage, apiImages, displaySplashScreen } = props;
-
-  console.log({ apiImages });
-
+  
   const scrollerStyles = {
     height: `${window.innerHeight * apiImages.length}px`,
   };
