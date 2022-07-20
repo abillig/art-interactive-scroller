@@ -36,20 +36,14 @@ function ArtworkViewer() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const percentageOfPageScrolledTo =
-        window.scrollY / (window.innerHeight * apiImages.length);
+      const pageHeight = window.innerHeight * apiImages.length;
+      const percentageOfPageScrolledTo = window.scrollY / pageHeight;
       const desiredIndex = Math.round(
         apiImages.length * percentageOfPageScrolledTo
       );
+      const leadImageIsFeatured = desiredIndex <= 1;
 
-      if (
-        desiredIndex > 1 &&
-        desiredIndex !== apiImages.indexOf(featuredImage)
-      ) {
-        setDisplaySplashScreen(false);
-      } else if (desiredIndex <= 1) {
-        setDisplaySplashScreen(true);
-      }
+      leadImageIsFeatured ? setDisplaySplashScreen(true) : setDisplaySplashScreen(false);
       setFeaturedImage(apiImages[desiredIndex]);
     };
 
