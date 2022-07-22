@@ -38,7 +38,7 @@ const UploadView = () => {
     );
   };
 
-  async function postImage({
+  function postImage({
     image,
     description,
     title,
@@ -49,43 +49,39 @@ const UploadView = () => {
     formData.append("image", image);
     formData.append("title", title);
     formData.append("lead_image", leadImage);
-    if (description) {
-      formData.append("description", description);
-    }
-    if (artworkId) {
-      formData.append("artwork_id", artworkId);
-    }
-
-    const result = await axios.post(
+    description && formData.append("description", description);
+    artworkId && formData.append("artwork_id", artworkId);
+    
+    return axios.post(
       `${process.env.REACT_APP_API_URL}/images`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
-    return result.data;
   }
 
-  const postLeadImage = async leadImage => {
-    return postImage({
+  const submit = event => {
+    // post lead image 
+    postImage({
       image: leadImage.url,
       title: leadImage.title,
       leadImage: true,
-    });
-  }
+    }).then(async res => {
+      let artworkId = res.data.insertId;
 
-  const submit = async (event) => {
-    const result = await postLeadImage(leadImage);
-
-    const artworkId = await result.insertId;
-    uploads.forEach((upload) => {
-      postImage({
-        image: upload.url,
-        description: upload.description,
-        title: upload.title,
-        leadImage: false,
-        artworkId: artworkId,
-      });
+      for(let upload of uploads){
+        // the await ensures that uploads post in the proper order 
+        await postImage({
+          image: upload.url,
+          description: upload.description,
+          title: upload.title,
+          leadImage: false,
+          artworkId: artworkId,
+        });
+      };
+    }).catch(err => {
+      console.error(err)
     });
   };
 
