@@ -30,7 +30,7 @@ const UploadView = () => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const leadImageTitlepdate = (value) => {
+  const leadImageTitleUpdate = (value) => {
     setLeadImage(
       Object.assign({}, leadImage, {
         title: value,
@@ -106,7 +106,7 @@ const UploadView = () => {
               placeholder="lead image title"
               className="imageInput"
               value={leadImage.name}
-              onChange={(e) => leadImageTitlepdate(e.target.value)}
+              onChange={(e) => leadImageTitleUpdate(e.target.value)}
             />
           </div>
         </div>
