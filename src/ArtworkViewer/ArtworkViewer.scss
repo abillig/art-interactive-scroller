@@ -1,8 +1,6 @@
 .featuredImage {
     position: fixed;
-    width: -webkit-calc(100% - 400px);
-    width:    -moz-calc(100% - 400px);
-    width:         calc(100% - 400px);
+    max-height: 500; 
     left: 20px;
     margin-top: 10vh;
 }
